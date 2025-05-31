@@ -1,17 +1,47 @@
 {
-  "name": "tlob_bit",
+  "name": "tlob_btc_usdt",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "High-performance TypeScript application for processing cryptocurrency limit order book data from Binance via CoinAPI's S3 service. Features real-time streaming, market condition analysis, and hybrid TypeScript/Go architecture for efficient processing of financial time-series data.",
+  "main": "dist/index.js",
+  "keywords": [
+    "cryptocurrency",
+    "orderbook",
+    "binance",
+    "bitcoin",
+    "trading",
+    "market-data",
+    "time-series",
+    "financial-data",
+    "typescript",
+    "go",
+    "streaming",
+    "data-processing",
+    "coinapi",
+    "s3"
+  ],
+  "author": "macqueen1001@berkeley.edu",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macqueen1001/tlob_btc_usdt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/macqueen1001/tlob_btc_usdt/issues"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "test-s3": "npx tsc && node dist/test-s3-connection.js",
     "preprocess": "npx tsc && node --max-old-space-size=16384 dist/index.js",
+    "build": "npx tsc",
+    "start": "npm run build && node dist/index.js",
+    "dev": "npx tsc --watch",
     "build-go": "go build -o bin/processor cmd/processor/main.go",
     "go-process": "go run cmd/processor/main.go"
   },
-  "author": "",
-  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "devDependencies": {
     "@types/dotenv": "^8.2.3",
     "@types/lodash": "^4.17.17",
