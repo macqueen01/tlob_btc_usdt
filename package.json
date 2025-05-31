@@ -33,6 +33,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "test-s3": "npx tsc && node dist/test-s3-connection.js",
     "preprocess": "npx tsc && node --max-old-space-size=16384 dist/index.js",
+    "hydra": "python main.py +dataset=btc_usdt_spot hydra.job.chdir=False",
     "build": "npx tsc",
     "start": "npm run build && node dist/index.js",
     "dev": "npx tsc --watch",
