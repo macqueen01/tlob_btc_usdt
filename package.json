@@ -1,7 +1,7 @@
 {
   "name": "tlob_btc_usdt",
-  "version": "1.0.0",
-  "description": "High-performance TypeScript application for processing cryptocurrency limit order book data from Binance via CoinAPI's S3 service. Features real-time streaming, market condition analysis, and hybrid TypeScript/Go architecture for efficient processing of financial time-series data.",
+  "version": "0.1.0",
+  "description": "Experimental TypeScript/Go application for processing cryptocurrency limit order book data from Binance via CoinAPI's S3 service. Personal use only - unstable codebase with planned Python implementation and Go migration.",
   "main": "dist/index.js",
   "keywords": [
     "cryptocurrency",
@@ -28,6 +28,7 @@
   "bugs": {
     "url": "https://github.com/macqueen1001/tlob_btc_usdt/issues"
   },
+  "homepage": "https://github.com/macqueen1001/tlob_btc_usdt#readme",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "test-s3": "npx tsc && node dist/test-s3-connection.js",

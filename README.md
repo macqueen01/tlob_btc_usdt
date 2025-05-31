@@ -1,5 +1,15 @@
 # TLOB (Time-series Limit Order Book) Processor
 
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8+-blue.svg)](https://www.typescriptlang.org/)
+[![Go](https://img.shields.io/badge/Go-1.19+-00ADD8.svg)](https://golang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
+[![CoinAPI](https://img.shields.io/badge/Data-CoinAPI-orange.svg)](https://www.coinapi.io/)
+[![License: ISC](https://img.shields.io/badge/License-ISC-yellow.svg)](https://opensource.org/licenses/ISC)
+[![Implementation Status](https://img.shields.io/badge/Status-Experimental-yellow.svg)]()
+[![Personal Use](https://img.shields.io/badge/Use-Personal%20Only-red.svg)]()
+
+> ⚠️ **EXPERIMENTAL PROJECT**: This is an unstable, experimental implementation intended for personal use only. The codebase is under active development and may contain breaking changes.
+
 A high-performance TypeScript application for processing cryptocurrency limit order book data from Binance via CoinAPI's S3 service, with support for real-time streaming, data transformation, and market condition analysis.
 
 ## 🚀 Features
@@ -36,7 +46,7 @@ A high-performance TypeScript application for processing cryptocurrency limit or
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/macqueen01/tlob_btc_usdt
+   git clone https://github.com/macqueen1001/tlob_btc_usdt.git
    cd tlob_btc_usdt
    ```
 
@@ -139,7 +149,7 @@ main(true, "", "", true, 1);
 ## 📁 Project Structure
 
 ```
-TLOB_bit/
+tlob_btc_usdt/
 ├── src/
 │   ├── coin-api/           # CoinAPI S3 configuration
 │   ├── order-book/         # Core processing logic
@@ -151,9 +161,12 @@ TLOB_bit/
 │   ├── config.ts           # Environment configuration
 │   └── index.ts            # Application entry point
 ├── cmd/                    # Go applications
+├── dist/                   # Compiled TypeScript output
 ├── raw/                    # Local data storage
 ├── preprocessed/           # Processed output
-└── logs/                   # Processing logs
+├── logs/                   # Processing logs
+├── .env.example            # Environment configuration template
+└── README.md               # This file
 ```
 
 ## 🔧 Data Processing Pipeline
@@ -193,7 +206,58 @@ The system focuses on June 17, 2023 (timestamp range: 1686960323000 - 1687044933
 ```bash
 # Test CoinAPI S3 connectivity and permissions
 npm run test-s3
+
+# Build and run Go components
+npm run build-go
+npm run go-process
 ```
+
+## 📊 Implementation Status
+
+### ✅ Current TypeScript/Go Implementation
+- [x] CoinAPI S3 integration and authentication
+- [x] Streaming data processing pipeline
+- [x] TypeScript/Go hybrid architecture
+- [x] Order book parsing and validation
+- [x] Environment-based configuration
+- [x] Batch processing optimization
+- [x] Error handling and retry mechanisms
+- [x] Comprehensive documentation
+
+### 🚧 Active Development (TypeScript)
+- [ ] Real-time market condition classification
+- [ ] Advanced order book analytics
+- [ ] Performance benchmarking suite
+- [ ] Extended date range processing
+- [ ] Stability improvements for production use
+
+### 🐍 Planned: Python Implementation
+- [ ] Complete TLOB processing suite in Python
+- [ ] Enhanced data analysis capabilities
+- [ ] Machine learning model integration
+- [ ] Jupyter notebook examples
+- [ ] Python-specific optimizations
+
+### ⚡ Planned: Full Go Migration
+- [ ] Port core data processing to Go
+- [ ] High-performance streaming architecture
+- [ ] Concurrent processing optimizations
+- [ ] Memory-efficient implementations
+- [ ] Cross-platform binary distribution
+
+### 🔮 Future Multi-Language Ecosystem
+- [ ] Multi-pair support (ETH/USDT, etc.)
+- [ ] WebSocket real-time streaming
+- [ ] Interactive data visualization
+- [ ] REST API endpoints
+- [ ] Docker containerization
+
+## 🔒 Security Features
+
+- **Environment-based secrets**: No hardcoded CoinAPI credentials
+- **Secure logging**: Sensitive data is masked in logs
+- **Error isolation**: Failures don't expose credentials
+- **Type-safe configuration**: Compile-time validation
 
 ## 🚧 Development
 
@@ -208,6 +272,16 @@ npm run test-s3
 1. Inherit from `OrderBook` base class
 2. Implement custom `apply()` methods
 3. Add to the processing pipeline
+
+### Go Integration
+
+```bash
+# Build Go components
+go build -o bin/processor cmd/processor/main.go
+
+# Test Go functionality
+go run cmd/processor/main.go test_data.json
+```
 
 ## 📈 Performance
 
@@ -250,4 +324,18 @@ For CoinAPI access issues:
 
 ---
 
-**Note**: This project processes financial market data from CoinAPI for research and analysis purposes. Ensure compliance with CoinAPI's terms of service and relevant data usage agreements. 
+**⚠️ DISCLAIMER**: This is an **experimental project for personal use only**. The codebase is unstable and subject to breaking changes. This project processes financial market data from CoinAPI for research and analysis purposes. Ensure compliance with CoinAPI's terms of service and relevant data usage agreements. Use at your own risk.
+
+## 🔬 Project Roadmap
+
+This repository serves as the foundation for a broader TLOB (Time-series Limit Order Book) ecosystem:
+
+### Current Implementation (TypeScript/Go Hybrid)
+- **Phase 1**: TypeScript-based order book processing with Go integration
+- **Status**: Experimental, personal use only
+- **Stability**: Unstable, breaking changes expected
+
+### Planned Extensions
+- **Phase 2**: **Python Implementation** - Complete TLOB processing suite in Python
+- **Phase 3**: **Full Go Migration** - Port data processing components entirely to Go for maximum performance
+- **Phase 4**: Multi-language ecosystem with language-specific optimizations 
