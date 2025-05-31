@@ -1,4 +1,4 @@
-# TLOB (Time-series Limit Order Book) Processor
+# TLOB (Transformer for Limit Order Book) Processor
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8+-blue.svg)](https://www.typescriptlang.org/)
 [![Go](https://img.shields.io/badge/Go-1.19+-00ADD8.svg)](https://golang.org/)
@@ -10,7 +10,18 @@
 
 > ⚠️ **EXPERIMENTAL PROJECT**: This is an unstable, experimental implementation intended for personal use only. The codebase is under active development and may contain breaking changes.
 
-A high-performance TypeScript application for processing cryptocurrency limit order book data from Binance via CoinAPI's S3 service, with support for real-time streaming, data transformation, and market condition analysis.
+A high-performance data processing pipeline for preparing cryptocurrency limit order book data from Binance (via CoinAPI's S3 service) for Transformer model training and inference. Features real-time streaming, data transformation, and preprocessing optimized for machine learning applications.
+
+## 🤖 About TLOB (Transformer for Limit Order Book)
+
+This project implements the data preprocessing pipeline for **Transformer models** applied to limit order book analysis. The Transformer architecture, originally designed for NLP tasks, is adapted to process sequential limit order book data for:
+
+- **Market Movement Prediction**: Predicting price direction and magnitude
+- **Market Condition Classification**: Identifying bullish, bearish, and neutral market states  
+- **Order Flow Analysis**: Understanding market microstructure patterns
+- **High-Frequency Trading Signals**: Generating actionable trading insights
+
+The data pipeline prepares structured time-series data that serves as input to Transformer models for financial market analysis.
 
 ## 🚀 Features
 
@@ -226,24 +237,27 @@ npm run go-process
 
 ### 🚧 Active Development (TypeScript)
 - [ ] Real-time market condition classification
-- [ ] Advanced order book analytics
+- [ ] Advanced order book analytics  
 - [ ] Performance benchmarking suite
 - [ ] Extended date range processing
-- [ ] Stability improvements for production use
+- [ ] Feature engineering for Transformer input sequences
+- [ ] Data validation for ML pipeline integration
 
-### 🐍 Planned: Python Implementation
-- [ ] Complete TLOB processing suite in Python
-- [ ] Enhanced data analysis capabilities
-- [ ] Machine learning model integration
-- [ ] Jupyter notebook examples
-- [ ] Python-specific optimizations
+### 🐍 Planned: Python ML Implementation
+- [ ] Transformer model architecture for order book sequences
+- [ ] PyTorch/TensorFlow training pipelines
+- [ ] Feature engineering and sequence preparation
+- [ ] Market condition classification models
+- [ ] Price movement prediction models
+- [ ] Backtesting and model evaluation frameworks
+- [ ] Jupyter notebook examples and tutorials
 
-### ⚡ Planned: Full Go Migration
-- [ ] Port core data processing to Go
+### ⚡ Planned: Go High-Performance Inference
+- [ ] Real-time data preprocessing for model inference
 - [ ] High-performance streaming architecture
-- [ ] Concurrent processing optimizations
+- [ ] Low-latency model serving
 - [ ] Memory-efficient implementations
-- [ ] Cross-platform binary distribution
+- [ ] Production-ready inference pipeline
 
 ### 🔮 Future Multi-Language Ecosystem
 - [ ] Multi-pair support (ETH/USDT, etc.)
@@ -328,14 +342,22 @@ For CoinAPI access issues:
 
 ## 🔬 Project Roadmap
 
-This repository serves as the foundation for a broader TLOB (Time-series Limit Order Book) ecosystem:
+This repository serves as the foundation for a **Transformer-based limit order book analysis** ecosystem:
 
 ### Current Implementation (TypeScript/Go Hybrid)
-- **Phase 1**: TypeScript-based order book processing with Go integration
+- **Phase 1**: Data preprocessing pipeline in TypeScript with Go integration
+- **Purpose**: Efficient data extraction, transformation, and preparation for ML models
 - **Status**: Experimental, personal use only
 - **Stability**: Unstable, breaking changes expected
 
 ### Planned Extensions
-- **Phase 2**: **Python Implementation** - Complete TLOB processing suite in Python
-- **Phase 3**: **Full Go Migration** - Port data processing components entirely to Go for maximum performance
-- **Phase 4**: Multi-language ecosystem with language-specific optimizations 
+- **Phase 2**: **Python Implementation** - Complete ML pipeline with Transformer model training
+  - PyTorch/TensorFlow Transformer implementations
+  - Model training and validation pipelines  
+  - Feature engineering for financial time series
+  - Backtesting and evaluation frameworks
+- **Phase 3**: **Full Go Migration** - High-performance data processing for real-time inference
+  - Ultra-fast data preprocessing for live trading
+  - Optimized memory management for streaming data
+  - Low-latency model serving infrastructure
+- **Phase 4**: Production ML ecosystem with end-to-end Transformer-based trading system 

@@ -1,7 +1,7 @@
 {
   "name": "tlob_btc_usdt",
   "version": "0.1.0",
-  "description": "Experimental TypeScript/Go application for processing cryptocurrency limit order book data from Binance via CoinAPI's S3 service. Personal use only - unstable codebase with planned Python implementation and Go migration.",
+  "description": "Experimental data preprocessing pipeline for Transformer models applied to limit order book analysis. Processes Binance BTC/USDT data via CoinAPI for ML training. Personal use only - unstable codebase with planned Python ML implementation.",
   "main": "dist/index.js",
   "keywords": [
     "cryptocurrency",
