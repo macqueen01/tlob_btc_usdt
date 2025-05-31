@@ -1,0 +1,30 @@
+{
+  "name": "tlob_bit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-s3": "npx tsc && node dist/test-s3-connection.js",
+    "preprocess": "npx tsc && node --max-old-space-size=16384 dist/index.js",
+    "build-go": "go build -o bin/processor cmd/processor/main.go",
+    "go-process": "go run cmd/processor/main.go"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/dotenv": "^8.2.3",
+    "@types/lodash": "^4.17.17",
+    "@types/node": "^22.15.21",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.817.0",
+    "aws-sdk": "^2.1692.0",
+    "csv-parse": "^5.6.0",
+    "dotenv": "^16.5.0",
+    "fs": "^0.0.1-security",
+    "lodash": "^4.17.21",
+    "stream-transform": "^3.3.3"
+  }
+}
