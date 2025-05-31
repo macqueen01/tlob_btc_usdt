@@ -36,8 +36,8 @@ A high-performance TypeScript application for processing cryptocurrency limit or
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd TLOB_bit
+   git clone https://github.com/macqueen01/tlob_btc_usdt
+   cd tlob_btc_usdt
    ```
 
 2. **Install dependencies**
@@ -193,18 +193,7 @@ The system focuses on June 17, 2023 (timestamp range: 1686960323000 - 1687044933
 ```bash
 # Test CoinAPI S3 connectivity and permissions
 npm run test-s3
-
-# Build and run Go components
-npm run build-go
-npm run go-process
 ```
-
-## 🔒 Security Features
-
-- **Environment-based secrets**: No hardcoded CoinAPI credentials
-- **Secure logging**: Sensitive data is masked in logs
-- **Error isolation**: Failures don't expose credentials
-- **Type-safe configuration**: Compile-time validation
 
 ## 🚧 Development
 
@@ -219,16 +208,6 @@ npm run go-process
 1. Inherit from `OrderBook` base class
 2. Implement custom `apply()` methods
 3. Add to the processing pipeline
-
-### Go Integration
-
-```bash
-# Build Go components
-go build -o bin/processor cmd/processor/main.go
-
-# Test Go functionality
-go run cmd/processor/main.go test_data.json
-```
 
 ## 📈 Performance
 
