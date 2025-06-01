@@ -11,6 +11,8 @@ class Dataset:
     batch_size: int = 32
     dates: list = MISSING
     sampling_time: SamplingTime = MISSING
+    split_rates: list = MISSING
+    split_days: list = MISSING
     
 @dataclass
 class BTC_USDT_SPOT(Dataset):
@@ -19,6 +21,8 @@ class BTC_USDT_SPOT(Dataset):
     dates: list = field(default_factory=lambda: ["2023-06-17", "2025-05-20"])
     batch_size: int = 128
     sampling_time: SamplingTime = SamplingTime.TWO_HUNDRED_MS
+    split_rates: list = field(default_factory=lambda: [0.8, 0.1, 0.1])
+    split_days: list = field(default_factory=lambda: [5, 1, 1])
     
 @dataclass
 class Config:
