@@ -1,0 +1,17 @@
+dataset:
+  type: BTC_USDT_SPOT
+  data_dir: ./preprocessed
+  batch_size: 128
+  dates:
+  - '2023-06-17'
+  - '2025-05-20'
+  sampling_time: TWO_HUNDRED_MS
+  split_rates:
+  - 0.8
+  - 0.1
+  - 0.1
+  split_days:
+  - 5
+  - 1
+  - 1
+accelerator: MPS
