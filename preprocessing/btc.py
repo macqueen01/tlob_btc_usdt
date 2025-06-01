@@ -118,8 +118,44 @@ class BTCDataBuilder:
         pass
 
     def _normalize_data(self):
-        # TODO: Implement normalization logic for the data
-        pass
+        train_mean_price, train_std_price = self._get_stats_for_price(self.dataframes[0])
+        train_mean_size, train_std_size = self._get_stats_for_size(self.dataframes[0])
+        
+        for i in range(len(self.dataframes)):
+            self.dataframes[i] = self._normalize_price(self.dataframes[i], train_mean_price, train_std_price)
+            self.dataframes[i] = self._normalize_size(self.dataframes[i], train_mean_size, train_std_size)
+    
+    def _get_stats_for_size(self, dataframe: pd.DataFrame) -> tuple[float, float]:
+        mean_sell_size: float = dataframe.loc[:, [f"sell_size_{j+1}" for j in range(self.n_lob_levels)]].stack().mean()  # type: ignore
+        mean_buy_size: float = dataframe.loc[:, [f"buy_size_{j+1}" for j in range(self.n_lob_levels)]].stack().mean()  # type: ignore
+        mean_size = (mean_sell_size + mean_buy_size) / 2
+        
+        std_sell_size: float = dataframe.loc[:, [f"sell_size_{j+1}" for j in range(self.n_lob_levels)]].stack().std()  # type: ignore
+        std_buy_size: float = dataframe.loc[:, [f"buy_size_{j+1}" for j in range(self.n_lob_levels)]].stack().std()  # type: ignore
+        std_size = (std_sell_size + std_buy_size) / 2
+        
+        return mean_size, std_size
+
+    def _get_stats_for_price(self, dataframe: pd.DataFrame) -> tuple[float, float]:
+        mean_sell_price: float = dataframe.loc[:, [f"sell_price_{j+1}" for j in range(self.n_lob_levels)]].stack().mean()  # type: ignore
+        mean_buy_price: float = dataframe.loc[:, [f"buy_price_{j+1}" for j in range(self.n_lob_levels)]].stack().mean()  # type: ignore
+        mean_price = (mean_sell_price + mean_buy_price) / 2
+        
+        std_sell_price: float = dataframe.loc[:, [f"sell_price_{j+1}" for j in range(self.n_lob_levels)]].stack().std()  # type: ignore
+        std_buy_price: float = dataframe.loc[:, [f"buy_price_{j+1}" for j in range(self.n_lob_levels)]].stack().std()  # type: ignore
+        std_price = (std_sell_price + std_buy_price) / 2
+        
+        return mean_price, std_price
+    
+    def _normalize_price(self, dataframe: pd.DataFrame, mean_price: float, std_price: float) -> pd.DataFrame:
+        dataframe.loc[:, [f"sell_price_{j+1}" for j in range(self.n_lob_levels)]] = (dataframe.loc[:, [f"sell_price_{j+1}" for j in range(self.n_lob_levels)]] - mean_price) / std_price
+        dataframe.loc[:, [f"buy_price_{j+1}" for j in range(self.n_lob_levels)]] = (dataframe.loc[:, [f"buy_price_{j+1}" for j in range(self.n_lob_levels)]] - mean_price) / std_price
+        return dataframe
+    
+    def _normalize_size(self, dataframe: pd.DataFrame, mean_size: float, std_size: float) -> pd.DataFrame:
+        dataframe.loc[:, [f"sell_size_{j+1}" for j in range(self.n_lob_levels)]] = (dataframe.loc[:, [f"sell_size_{j+1}" for j in range(self.n_lob_levels)]] - mean_size) / std_size
+        dataframe.loc[:, [f"buy_size_{j+1}" for j in range(self.n_lob_levels)]] = (dataframe.loc[:, [f"buy_size_{j+1}" for j in range(self.n_lob_levels)]] - mean_size) / std_size
+        return dataframe
         
     def _split_days(self) -> list[int]:
         train = int(self.num_trading_days * self.split_rates[0])
