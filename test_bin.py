@@ -1,7 +1,6 @@
 import torch
 import pytest
 import sys
-import os
 
 # Add the current directory to path to import models
 sys.path.append('.')
