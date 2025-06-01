@@ -186,10 +186,12 @@ class BTCDataBuilder:
         return [train, val, test]
     
     def _save(self, path_to_save: str):
-        # np.save(path_to_save + "/train.npy", self.train_set)
-        # np.save(path_to_save + "/val.npy", self.val_set)
-        # np.save(path_to_save + "/test.npy", self.test_set)
-        pass
+        if (self.train_set is None or self.val_set is None or self.test_set is None):
+            raise ValueError("Train, val or test set is None")
+        
+        np.save(path_to_save + "/train.npy", self.train_set)
+        np.save(path_to_save + "/val.npy", self.val_set)
+        np.save(path_to_save + "/test.npy", self.test_set)
         
     def _sample(self, dataframe: pd.DataFrame) -> pd.DataFrame:
         dataframe['timestamp'] = pd.to_datetime(dataframe['timestamp'], errors='coerce')
