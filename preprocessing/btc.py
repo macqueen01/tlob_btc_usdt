@@ -1,6 +1,5 @@
 from genericpath import isfile
 import os
-import random
 import numpy as np
 import pandas as pd
 import kagglehub
@@ -25,10 +24,6 @@ class BTCDataBuilder:
         self.test_set = None
         
     def prepare_and_save(self):
-        # for date in self.dates:
-        #     dataframe = pd.read_csv(self.data_dir + f"/{date}.csv")
-        #     dataframe = self._sample(dataframe)
-        
         save_dir = "{}/{}/from_{}_to_{}".format(
             self.data_dir,
             cst.DatasetType.BTC_USDT_SPOT.value,
@@ -61,16 +56,23 @@ class BTCDataBuilder:
         self.dataframes = []
         self._prepare_dataframes(save_dir)
         
+        self.train_set = np.concatenate([self.dataframes[0].values, self.train_labels_horizons.values])
+        self.val_set = np.concatenate([self.dataframes[1].values, self.val_labels_horizons.values])
+        self.test_set = np.concatenate([self.dataframes[2].values, self.test_labels_horizons.values])
+        
+        path_where_to_save = "{}/{}".format(
+            self.data_dir,
+            "tlob_BTC_USDT_SPOT",
+        )
+        self._save(path_where_to_save)   
+        
     def _prepare_dataframes(self, dir: str):
         train_set = None
         val_set = None
         test_set = None
         [train_days, val_days, test_days] = self._split_days()
         
-        files = [os.path.join(dir, file) for file in os.listdir(dir)]
-        random.shuffle(files)
-        
-        for i, file in enumerate(files):
+        for i, file in enumerate(os.listdir(dir)):
             if not os.path.isfile(file):
                 raise ValueError(f"File {file} is not a file")
             
@@ -90,17 +92,13 @@ class BTCDataBuilder:
         
         self.dataframes = [train_set, val_set, test_set]
         
-        train_input = self.dataframes[0].values
-        val_input = self.dataframes[1].values
-        test_input = self.dataframes[2].values
-        
         for i, horizon in enumerate(cst.HORIZONS):
             train_labels = self._label_data(
-                train_input, cst.LEN_SMOOTH, horizon)
+                self.dataframes[0], cst.LEN_SMOOTH, horizon)
             val_labels = self._label_data(
-                val_input, cst.LEN_SMOOTH, horizon)
+                self.dataframes[1], cst.LEN_SMOOTH, horizon)
             test_labels = self._label_data(
-                test_input, cst.LEN_SMOOTH, horizon)
+                self.dataframes[2], cst.LEN_SMOOTH, horizon)
             
             if i == 0:
                 self.train_labels_horizons = pd.DataFrame(train_labels, columns=[f"label_h{horizon}"])
@@ -113,9 +111,32 @@ class BTCDataBuilder:
         
         self._normalize_data()
         
-    def _label_data(self, input: np.ndarray, window_size: int, horizon: int):
-        # TODO: Implement labeling logic for the data
-        pass
+    def _label_data(self, input: pd.DataFrame, window_size: int, horizon: int) -> np.ndarray:
+        sell_price_over_window = np.lib.stride_tricks.sliding_window_view(
+            input[:,'sell_price_1'], window_shape=window_size)
+        buy_price_over_window = np.lib.stride_tricks.sliding_window_view(
+            input[:,'buy_price_1'], window_shape=window_size)
+        avg_price = (buy_price_over_window + sell_price_over_window) / 2
+        smoothen_avg_price = avg_price.mean(axis=-1)
+        
+        previous_price = smoothen_avg_price[:-horizon]
+        future_price = smoothen_avg_price[horizon:]
+        
+        percentage_change = (future_price - previous_price) / previous_price
+        alpha = np.abs(percentage_change).mean()
+        
+        print(f"alpha is set to average percentage change: {alpha}")
+        
+        # UP: 0
+        # STATIONARY: 1
+        # DOWN: 2
+        labels = np.where(
+            percentage_change < -alpha, 2, 
+            np.where(percentage_change > alpha, 0, 1)
+        )
+        len_empty_timestamps = input.values.shape[0] - labels.shape[0]
+        # Pad the end with inf to indicate invalid/unavailable labels
+        return np.pad(labels, (0, len_empty_timestamps), mode='constant', constant_values=np.inf)
 
     def _normalize_data(self):
         train_mean_price, train_std_price = self._get_stats_for_price(self.dataframes[0])
@@ -163,11 +184,6 @@ class BTCDataBuilder:
         test = int(self.num_trading_days * self.split_rates[2]) + val
         print(f"There are {train} days for training, {val - train} days for validation and {test - val} days for testing")
         return [train, val, test]
-        
-        
-            
-            
-            
     
     def _save(self, path_to_save: str):
         # np.save(path_to_save + "/train.npy", self.train_set)
